@@ -1,10 +1,17 @@
 //! A logger that prints all messages with a readable output format.
 
 extern crate log;
-extern crate chrono;
+extern crate wasm_bindgen;
 
-use log::{Log,Level,Metadata,Record,SetLoggerError};
-use chrono::Local;
+use log::{Level, Log, Metadata, Record, SetLoggerError};
+
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    pub fn log(s: &str);
+}
 
 struct SimpleLogger {
     level: Level,
@@ -15,19 +22,31 @@ impl Log for SimpleLogger {
         metadata.level() <= self.level
     }
 
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "linux")))]
     fn log(&self, record: &Record) {
         if self.enabled(record.metadata()) {
-            println!(
-                "{} {:<5} [{}] {}",
-                Local::now().format("%Y-%m-%d %H:%M:%S"),
+            log(&format!(
+                "{:<5} [{}] {}",
                 record.level().to_string(),
                 record.module_path().unwrap_or_default(),
-                record.args());
+                record.args()
+            ));
         }
     }
 
-    fn flush(&self) {
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))]
+    fn log(&self, record: &Record) {
+        if self.enabled(record.metadata()) {
+            println!(
+                "{:<5} [{}] {}",
+                record.level().to_string(),
+                record.module_path().unwrap_or_default(),
+                record.args()
+            );
+        }
     }
+
+    fn flush(&self) {}
 }
 
 /// Initializes the global logger with a SimpleLogger instance with

@@ -1,12 +1,9 @@
-# simple_logger [![](https://img.shields.io/github/tag/borntyping/rust-simple_logger.svg)](https://github.com/borntyping/rust-simple_logger/tags) [![](https://img.shields.io/travis/borntyping/rust-simple_logger.svg)](https://travis-ci.org/borntyping/rust-simple_logger) [![](https://img.shields.io/github/issues/borntyping/rust-simple_logger.svg)](https://github.com/borntyping/rust-simple_logger/issues)
+# wasm-logger
 
-A logger that prints all messages with a readable output format.
+A logger that prints all messages with a readable output format, to either the
+browser console or stdout, depending on the build target.
 
 The output format is based on the format used by [Supervisord](http://supervisord.org/).
-
-* [Source on GitHub](https://github.com/borntyping/rust-simple_logger)
-* [Packages on Crates.io](https://crates.io/crates/simple_logger)
-* [Builds on Travis CI](https://travis-ci.org/borntyping/rust-simple_logger)
 
 Usage
 -----
@@ -14,10 +11,10 @@ Usage
 ```rust
 #[macro_use]
 extern crate log;
-extern crate simple_logger;
+extern crate wasm_logger;
 
 fn main() {
-    simple_logger::init().unwrap();
+    wasm_logger::init().unwrap();
 
     warn!("This is an example message.");
 }
@@ -38,7 +35,7 @@ cargo run --example init
 Licence
 -------
 
-`simple_logger` is licenced under the [MIT Licence](http://opensource.org/licenses/MIT).
+`wasm_logger` is licenced under the [MIT Licence](http://opensource.org/licenses/MIT).
 
 Authors
 -------
