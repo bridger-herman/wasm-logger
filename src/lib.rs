@@ -7,6 +7,14 @@ use log::{Level, Log, Metadata, Record, SetLoggerError};
 
 use wasm_bindgen::prelude::*;
 
+#[macro_export]
+macro_rules! error_panic {
+    ($msg:expr) => {
+        error!($msg);
+        panic!();
+    }
+}
+
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(js_namespace = console)]
