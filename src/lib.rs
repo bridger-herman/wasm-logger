@@ -12,7 +12,11 @@ macro_rules! error_panic {
     ($msg:expr) => {
         error!($msg);
         panic!();
-    }
+    };
+    ($msg:expr, $args:expr) => {
+        error!($msg, $args);
+        panic!();
+    };
 }
 
 #[wasm_bindgen]
